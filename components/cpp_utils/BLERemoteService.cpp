@@ -233,8 +233,15 @@ std::map<std::string, BLERemoteCharacteristic*>* BLERemoteService::getCharacteri
  * @brief This function is designed to get characteristics map when we have multiple characteristics with the same UUID
  */
 void BLERemoteService::getCharacteristics(std::map<uint16_t, BLERemoteCharacteristic*>* pCharacteristicMap) {
-#pragma GCC diagnostic ignored "-Wunused-but-set-parameter"
-	pCharacteristicMap = &m_characteristicMapByHandle;
+	ESP_LOGD(LOG_TAG, ">> getCharacteristics() for service: %s", getUUID().toString().c_str());
+	// If is possible that we have not read the characteristics associated with the service so do that
+	// now.  The request to retrieve the characteristics by calling "retrieveCharacteristics" is a blocking
+	// call and does not return until all the characteristics are available.
+	if (!m_haveCharacteristics) {
+		retrieveCharacteristics();
+	}
+	ESP_LOGD(LOG_TAG, "<< getCharacteristics() for service: %s", getUUID().toString().c_str());
+	*pCharacteristicMap = m_characteristicMapByHandle;
 }  // Get the characteristics map.
 
 /**

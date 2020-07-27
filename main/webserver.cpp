@@ -19,9 +19,9 @@
 #define MAX_SCAN_APS 15
 #define ERR_MSG_BLE_NOT_STARTED "BLE not yet started"
 
-ESP_EVENT_DEFINE_BASE(WIFI_SCAN_EVENT)
+ESP_EVENT_DEFINE_BASE(WIFI_SCAN_EVENT);
 
-static const char *TAG = "webserver";
+static const char* TAG = "webserver";
 
 #define INDEX_FILE "/spiffs/index.html"
 
@@ -52,7 +52,7 @@ static cJSON *serialize_system(ibbq_state_t *bbq_state)
     uint8_t mac[6];
     esp_read_mac(mac, ESP_MAC_WIFI_STA);
     char serial[12];
-    snprintf(serial, sizeof(serial), "%02X%02X%02X%02X%02X%02X", mac[5], mac[4], mac[3], mac[2], mac[1], mac[0]);
+    //snprintf(serial, sizeof(serial), "%02X%02X%02X%02X%02X%02X", mac[5], mac[4], mac[3], mac[2], mac[1], mac[0]);
     cJSON_AddStringToObject(system, "serial", serial);
     if (bbq_state)
     {
